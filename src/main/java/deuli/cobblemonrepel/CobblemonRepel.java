@@ -43,7 +43,7 @@ public class CobblemonRepel implements ModInitializer {
     public static final RepelBlock MAX_REPEL_BLOCK = Registry.register(Registries.BLOCK, Identifier.of(MOD_ID, "max_repel"), new RepelBlock(MAX_REPEL_TEXTURE, 3));
     public static final RepelBlockItem MAX_REPEL_BLOCK_ITEM = Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "max_repel"), new RepelBlockItem(MAX_REPEL_BLOCK, "max_repel"));
 
-    public static final PointOfInterestType REPEL_POI = PointOfInterestHelper.register(Identifier.of(MOD_ID, "repel"), 0, 1, REPEL_BLOCK, SUPER_REPEL_BLOCK, MAX_REPEL_BLOCK);//RegistryKey.of(Registries.POINT_OF_INTEREST_TYPE.getKey(), Identifier.of(MOD_ID, "repel"));
+    public static final PointOfInterestType REPEL_POI = PointOfInterestHelper.register(Identifier.of(MOD_ID, "repel"), 0, 1, REPEL_BLOCK, SUPER_REPEL_BLOCK, MAX_REPEL_BLOCK);
     public static final RegistryKey<PointOfInterestType> REPEL_POI_REGISTRY = RegistryKey.of(Registries.POINT_OF_INTEREST_TYPE.getKey(), Identifier.of(MOD_ID, "repel"));
 
     @Override
@@ -64,18 +64,20 @@ public class CobblemonRepel implements ModInitializer {
             SpawnablePosition spawnablePosition = event.getSpawnablePosition();
             ServerWorld world = spawnablePosition.getWorld();
 
+            // Only skip fishing spawns and the gamerule kill-switch.
+            // Pokésnack spawns (poke_snack_* spawner name) are intentionally
+            // NOT excluded here — they should still be blocked by repels.
+            // CobbleBosses spawns bypass this event entirely and are handled
+            // by ServerWorldMixin instead.
             if (event.isCanceled() ||
                     world.getGameRules().getInt(REPEL_RANGE) == 0 ||
-                    spawnablePosition instanceof FishingSpawnablePosition ||
-                    spawnablePosition.getSpawner().getName().startsWith("poke_snack_")
+                    spawnablePosition instanceof FishingSpawnablePosition
             ) return Unit.INSTANCE;
 
             BlockPos spawnPos = spawnablePosition.getPosition();
             if (isRepelNearby(world, spawnPos)) {
                 event.cancel();
             }
-
-//            Debug.handle(event);
 
             return Unit.INSTANCE;
         });
@@ -109,7 +111,6 @@ public class CobblemonRepel implements ModInitializer {
                     }
                 }
             }
-
             return false;
         });
     }
