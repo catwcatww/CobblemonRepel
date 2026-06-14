@@ -27,6 +27,7 @@ public class ServerWorldMixin {
             if (pokemonEntity.getPokemon().getOwnerUUID() != null) return;
 
             BlockPos spawnPos = entity.getBlockPos();
+
             if (CobblemonRepel.isRepelNearby(world, spawnPos)) {
                 entity.discard();
                 cir.setReturnValue(false);
@@ -36,7 +37,8 @@ public class ServerWorldMixin {
         } else if (entity instanceof NPCEntity npcEntity) {
 
             BlockPos spawnPos = entity.getBlockPos();
-            if (CobblemonRepel.isRepelNearby(world, spawnPos)) {
+            String npcId = npcEntity.getNpc().getResourceIdentifier().toString();
+            if (CobblemonRepel.isRepelNearby(world, spawnPos) && npcId.equals("cobblemon:pokestop") {
                 entity.discard();
                 cir.setReturnValue(false);
                 cir.cancel();
