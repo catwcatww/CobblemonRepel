@@ -38,7 +38,7 @@ public class ServerWorldMixin {
 
             BlockPos spawnPos = entity.getBlockPos();
             String npcId = npcEntity.getNpc().getResourceIdentifier().toString();
-            if (CobblemonRepel.isRepelNearby(world, spawnPos) && npcId.equals("cobblemon:pokestop") {
+            if (CobblemonRepel.isRepelNearby(world, spawnPos) && npcId.equals("cobblemon:pokestop")) {
                 entity.discard();
                 cir.setReturnValue(false);
                 cir.cancel();
