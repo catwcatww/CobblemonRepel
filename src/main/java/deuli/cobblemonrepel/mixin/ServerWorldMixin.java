@@ -21,7 +21,7 @@ public class ServerWorldMixin {
 
 
         if (world.getGameRules().getInt(CobblemonRepel.REPEL_RANGE) == 0) return;
-
+// test
         if (entity instanceof PokemonEntity pokemonEntity) {
             // Owned Pokémon = player's party being sent into battle
             if (pokemonEntity.getPokemon().getOwnerUUID() != null) return;
