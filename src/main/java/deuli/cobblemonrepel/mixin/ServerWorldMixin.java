@@ -19,15 +19,15 @@ public class ServerWorldMixin {
     private void cobblemonrepel$checkRepelOnSpawn(Entity entity, CallbackInfoReturnable<Boolean> cir) {
         ServerWorld world = (ServerWorld) (Object) this;
 
-
         if (world.getGameRules().getInt(CobblemonRepel.REPEL_RANGE) == 0) return;
 
         if (entity instanceof PokemonEntity pokemonEntity) {
-            // Owned Pokémon = player's party being sent into battle
             if (pokemonEntity.getPokemon().getOwnerUUID() != null) return;
+            if (pokemonEntity.isBattleClone()) return;
+            if (pokemonEntity.isBattling()) return;
+            if (pokemonEntity.getPokemon().getPersistentData().contains("plushie")) return;
 
             BlockPos spawnPos = entity.getBlockPos();
-
             if (CobblemonRepel.isRepelNearby(world, spawnPos)) {
                 entity.discard();
                 cir.setReturnValue(false);
@@ -35,7 +35,6 @@ public class ServerWorldMixin {
             }
 
         } else if (entity instanceof NPCEntity npcEntity) {
-
             BlockPos spawnPos = entity.getBlockPos();
             String npcId = npcEntity.getNpc().getResourceIdentifier().toString();
             if (CobblemonRepel.isRepelNearby(world, spawnPos) && npcId.equals("cobblemon:pokestop")) {
