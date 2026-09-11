@@ -1,7 +1,7 @@
 plugins {
     id 'fabric-loom' version '1.9.2'
     id 'maven-publish'
-    id "org.jetbrains.kotlin.jvm" version "2.2.20"
+    id "org.jetbrains.kotlin.jvm" version "2.4.0"
 }
 
 version = project.mod_version
@@ -53,8 +53,6 @@ dependencies {
     modImplementation "maven.modrinth:modmenu:${project.modmenu_version}"
     modImplementation "maven.modrinth:fabric-language-kotlin:${project.kotlin_version}"
     modImplementation "org.jetbrains.kotlin:kotlin-reflect:${project.kotlin_reflect_version}"
-    modImplementation "maven.modrinth:cobblemon-tim-core:${tim_core_version}"
-    modImplementation "maven.modrinth:cobblemon-spawn-notification:${cobblemon_spawn_notification_version}"
 
     modImplementation "maven.modrinth:emi:${project.emi_version}"
 }
