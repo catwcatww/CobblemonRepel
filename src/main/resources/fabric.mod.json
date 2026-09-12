@@ -19,5 +19,9 @@
         "fabric": "*",
         "minecraft": "${minecraft_version}",
         "cobblemon": ">=1.7 <1.9"
-    }
+    },
+    "mixins": [
+      "cobblemonrepel.mixins.json"
+    ]
+
 }
